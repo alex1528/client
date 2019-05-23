@@ -728,9 +728,10 @@ protocol local {
     string memo;              // optional
     string memoType;          // required if memo exists
   }
-  
+
   ValidateStellarURIResultLocal validateStellarURILocal(int sessionID, string inputURI);
   TransactionID approveTxURILocal(int sessionID, string inputURI);
   TransactionID approvePayURILocal(int sessionID, string inputURI, string amount, boolean fromCLI);
   TransactionID approvePathURILocal(int sessionID, string inputURI, PaymentPath fullPath, boolean fromCLI);
+  array<ExchangeUrl> getExchangeUrlsLocal(int sessionID);
 }

@@ -164,4 +164,12 @@ protocol common {
     string destinationAmount;
     Asset destinationAsset;
   }
+
+  record ExchangeUrl {
+    string url;
+    string title;
+    string description;
+    string iconFilename;
+    string extra; // extra json tbd
+  }
 }

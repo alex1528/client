@@ -1284,6 +1284,18 @@
         }
       ],
       "response": "PaymentPath"
+    },
+    "getExchangeUrls": {
+      "request": [
+        {
+          "name": "caller",
+          "type": "keybase1.UserVersion"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ExchangeUrl"
+      }
     }
   },
   "namespace": "stellar.1"

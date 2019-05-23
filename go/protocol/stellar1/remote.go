@@ -999,6 +999,10 @@ type FindPaymentPathArg struct {
 	Query  PaymentPathQuery     `codec:"query" json:"query"`
 }
 
+type GetExchangeUrlsArg struct {
+	Caller keybase1.UserVersion `codec:"caller" json:"caller"`
+}
+
 type RemoteInterface interface {
 	Balances(context.Context, BalancesArg) ([]Balance, error)
 	Details(context.Context, DetailsArg) (AccountDetails, error)
@@ -1026,6 +1030,7 @@ type RemoteInterface interface {
 	AssetSearch(context.Context, AssetSearchArg) ([]Asset, error)
 	ChangeTrustline(context.Context, ChangeTrustlineArg) error
 	FindPaymentPath(context.Context, FindPaymentPathArg) (PaymentPath, error)
+	GetExchangeUrls(context.Context, keybase1.UserVersion) ([]ExchangeUrl, error)
 }
 
 func RemoteProtocol(i RemoteInterface) rpc.Protocol {
@@ -1417,6 +1422,21 @@ func RemoteProtocol(i RemoteInterface) rpc.Protocol {
 					return
 				},
 			},
+			"getExchangeUrls": {
+				MakeArg: func() interface{} {
+					var ret [1]GetExchangeUrlsArg
+					return &ret
+				},
+				Handler: func(ctx context.Context, args interface{}) (ret interface{}, err error) {
+					typedArgs, ok := args.(*[1]GetExchangeUrlsArg)
+					if !ok {
+						err = rpc.NewTypeError((*[1]GetExchangeUrlsArg)(nil), args)
+						return
+					}
+					ret, err = i.GetExchangeUrls(ctx, typedArgs[0].Caller)
+					return
+				},
+			},
 		},
 	}
 }
@@ -1555,5 +1575,11 @@ func (c RemoteClient) ChangeTrustline(ctx context.Context, __arg ChangeTrustline
 
 func (c RemoteClient) FindPaymentPath(ctx context.Context, __arg FindPaymentPathArg) (res PaymentPath, err error) {
 	err = c.Cli.Call(ctx, "stellar.1.remote.findPaymentPath", []interface{}{__arg}, &res)
+	return
+}
+
+func (c RemoteClient) GetExchangeUrls(ctx context.Context, caller keybase1.UserVersion) (res []ExchangeUrl, err error) {
+	__arg := GetExchangeUrlsArg{Caller: caller}
+	err = c.Cli.Call(ctx, "stellar.1.remote.getExchangeUrls", []interface{}{__arg}, &res)
 	return
 }

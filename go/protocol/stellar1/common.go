@@ -500,6 +500,24 @@ func (o PaymentPath) DeepCopy() PaymentPath {
 	}
 }
 
+type ExchangeUrl struct {
+	Url          string `codec:"url" json:"url"`
+	Title        string `codec:"title" json:"title"`
+	Description  string `codec:"description" json:"description"`
+	IconFilename string `codec:"iconFilename" json:"iconFilename"`
+	Extra        string `codec:"extra" json:"extra"`
+}
+
+func (o ExchangeUrl) DeepCopy() ExchangeUrl {
+	return ExchangeUrl{
+		Url:          o.Url,
+		Title:        o.Title,
+		Description:  o.Description,
+		IconFilename: o.IconFilename,
+		Extra:        o.Extra,
+	}
+}
+
 type CommonInterface interface {
 }
 

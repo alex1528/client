@@ -2510,6 +2510,18 @@
         }
       ],
       "response": "TransactionID"
+    },
+    "getExchangeUrlsLocal": {
+      "request": [
+        {
+          "name": "sessionID",
+          "type": "int"
+        }
+      ],
+      "response": {
+        "type": "array",
+        "items": "ExchangeUrl"
+      }
     }
   },
   "namespace": "stellar.1"
